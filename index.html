@@ -418,7 +418,7 @@
       <div class="field">
         <label>Share inspiration photos</label>
         <p class="upload-note"><strong>Heads up:</strong> The upload page opens in a new tab. After you see the "upload successful" message, simply close that tab to return here and finish the questionnaire.</p>
-        <p class="helper">Upload any photos here — no sign-in required: <a class="reqlink" href="https://questfinejewelers.sharepoint.com/:f:/s/ExternalSharing/IgDEgkmOWz0iR6rEbC4TkUxLAVBqRcojIdlAlLiWT0NzC_8" target="_blank" rel="noopener">Upload inspiration photos</a></p>
+        <p class="helper">Upload any photos here — no sign-in required: <a class="reqlink" id="uploadLink" href="https://questfinejewelers.sharepoint.com/:f:/s/ExternalSharing/IgDEgkmOWz0iR6rEbC4TkUxLAVBqRcojIdlAlLiWT0NzC_8" target="_blank" rel="noopener">Upload inspiration photos</a></p>
       </div>
     </section>
 
@@ -570,6 +570,20 @@
     });
   }
   reasonGroup.addEventListener('change', updateBranches);
+
+  // ---- Auto-select "Yes" for inspiration when the upload link is clicked ----
+  // Clients often click the upload link but forget to answer the Yes/No question.
+  // Clicking the link is a strong signal they have photos, so we select "Yes"
+  // automatically. They can still change it back to "No" manually if they wish.
+  const uploadLink = document.getElementById('uploadLink');
+  const inYes = document.getElementById('in-yes');
+  if (uploadLink && inYes){
+    uploadLink.addEventListener('click', function(){
+      inYes.checked = true;
+      // Fire a change event so any dependent logic stays in sync
+      inYes.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
 
   form.addEventListener('submit', async function(e){
     e.preventDefault();
