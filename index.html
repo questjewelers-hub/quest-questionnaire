@@ -13,7 +13,8 @@
     --card:#ffffff;
     --brass:#a9822d;
     --brass-deep:#8a6a22;
-    --emerald:#1f3a2e;
+    --navy:#12284c;
+    --navy-deep:#0c1c36;
     --line:#e4dccb;
     --error:#a3402f;
   }
@@ -85,7 +86,7 @@
     font-weight:600;
     font-size:24px;
     margin:0 0 4px;
-    color:var(--emerald);
+    color:var(--navy);
   }
   section.card .sub{
     font-size:14px;
@@ -152,8 +153,8 @@
     transition:all .15s ease;
   }
   .choice input:checked + label{
-    background:var(--emerald);
-    border-color:var(--emerald);
+    background:var(--navy);
+    border-color:var(--navy);
     color:#fff;
   }
   .choice input:focus-visible + label{
@@ -164,7 +165,7 @@
   .helper{font-size:13px;color:#847a68;margin-top:8px;}
   .upload-note{
     font-size:14px;
-    color:var(--emerald);
+    color:var(--navy);
     background:#fbf3e2;
     border-left:3px solid var(--brass);
     border-radius:6px;
@@ -186,14 +187,14 @@
     letter-spacing:.06em;
     text-transform:uppercase;
     color:#fff;
-    background:var(--emerald);
+    background:var(--navy);
     border:none;
     border-radius:2px;
     padding:18px;
     cursor:pointer;
     transition:background .15s ease;
   }
-  button.submit:hover{background:#16291f;}
+  button.submit:hover{background:var(--navy-deep);}
   button.submit:disabled{background:#9a9284;cursor:wait;}
 
   .status{
@@ -202,7 +203,7 @@
     text-align:center;
   }
   .status.error{color:var(--error);}
-  .status.ok{color:var(--emerald);}
+  .status.ok{color:var(--navy);}
 
   .thankyou{
     text-align:center;
@@ -212,7 +213,7 @@
     font-family:'Cormorant Garamond', serif;
     font-size:32px;
     font-weight:500;
-    color:var(--emerald);
+    color:var(--navy);
     margin-bottom:14px;
   }
   .thankyou p{color:#4b453b;font-size:16px;}
