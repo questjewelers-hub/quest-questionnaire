@@ -174,6 +174,9 @@
     line-height:1.5;
   }
   .upload-note strong{color:var(--brass-deep);}
+  /* Honeypot: hidden from real users, but bots fill it in. Not display:none,
+     since some bots skip those. Submissions with this filled are discarded. */
+  .hp-wrap{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;}
   a.reqlink{color:var(--brass-deep);text-decoration:underline;}
 
   .branch{display:none;}
@@ -233,6 +236,16 @@
   <div class="divider"></div>
 
   <form id="pq-form" novalidate>
+
+    <!-- Honeypot spam trap. Invisible to people; automated bots tend to fill
+         every field they find. If "website" arrives with a value, the Power
+         Automate flow discards the submission. Do not remove or rename without
+         also updating the matching check in the flow. -->
+    <div class="hp-wrap" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+    </div>
+
 
     <!-- CONTACT -->
     <section class="card">
