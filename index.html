@@ -611,10 +611,10 @@
       const apptDate = get('appointment_date');
       let apptTime = get('appointment_time');
       // Zoho sends the time with a timezone suffix, e.g.
-      // "04:00 PM (America/New_York GMT -04:00)". Strip everything from
-      // " (" onward for a clean display; if the format ever differs and has
-      // no " (", the full value is shown unchanged.
-      const parenIndex = apptTime.indexOf(' (');
+      // "04:00 PM (America/New_York GMT -04:00)". Strip everything from the
+      // first "(" onward for a clean display; if there's no "(", the full
+      // value is shown unchanged.
+      const parenIndex = apptTime.indexOf('(');
       if (parenIndex !== -1) apptTime = apptTime.slice(0, parenIndex).trim();
       const parts = [];
       parts.push('Booking ' + bookingId);
