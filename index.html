@@ -177,6 +177,27 @@
   /* Honeypot: hidden from real users, but bots fill it in. Not display:none,
      since some bots skip those. Submissions with this filled are discarded. */
   .hp-wrap{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;}
+  .booking-banner{
+    background:#fbf3e2;
+    border:1px solid var(--brass);
+    border-radius:8px;
+    padding:16px 20px;
+    margin:0 0 28px;
+    text-align:center;
+  }
+  .booking-banner .bb-label{
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--brass-deep);
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .booking-banner .bb-detail{
+    font-size:17px;
+    color:var(--navy);
+    font-weight:600;
+  }
   a.reqlink{color:var(--brass-deep);text-decoration:underline;}
 
   .branch{display:none;}
@@ -234,6 +255,13 @@
     <p class="intro">This helps us prepare thoughtfully for your visit, so we can make the most of our time together and have the right pieces and guidance ready before you arrive.</p>
   </header>
   <div class="divider"></div>
+
+  <!-- Booking confirmation banner. Hidden by default; the prefill script
+       reveals and fills it only when a booking_id arrives in the URL. -->
+  <div class="booking-banner" id="bookingBanner" style="display:none;">
+    <div class="bb-label">Your appointment is confirmed</div>
+    <div class="bb-detail" id="bookingBannerDetail"></div>
+  </div>
 
   <form id="pq-form" novalidate>
 
@@ -574,6 +602,22 @@
     const apptField = document.getElementById('appointmentDateTime');
     if (bookingIdField) bookingIdField.value = bookingId;
     if (apptField) apptField.value = startTime;
+
+    // Visible confirmation banner — shown only when a booking ID is present.
+    // Also reads human-readable date/time params if the email link provides them.
+    const banner = document.getElementById('bookingBanner');
+    const bannerDetail = document.getElementById('bookingBannerDetail');
+    if (banner && bannerDetail && bookingId){
+      const apptDate = get('appointment_date');
+      const apptTime = get('appointment_time');
+      const parts = [];
+      parts.push('Booking ' + bookingId);
+      if (apptDate || apptTime){
+        parts.push([apptDate, apptTime].filter(Boolean).join(' at '));
+      }
+      bannerDetail.textContent = parts.join('  \u2022  ');
+      banner.style.display = 'block';
+    }
   })();
 
   function updateBranches(){
