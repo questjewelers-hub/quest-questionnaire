@@ -659,13 +659,27 @@
       return;
     }
 
+    // Escape HTML-significant characters so that whatever a customer types is
+    // shown as literal text in the notification email, never interpreted as
+    // HTML. Order matters: & must be replaced first, or the & in &lt;/&gt;
+    // would itself get re-escaped. This mirrors the escaping the email would
+    // otherwise need per-field in Power Automate; doing it once here keeps the
+    // flow's field references clean. (An attacker POSTing directly to the
+    // endpoint bypasses this — that path is covered separately by the flow's
+    // bot/verification checks.)
+    const escapeHtml = (s) => String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
     // Gather all answers, including multi-checkbox groups, into a plain object.
     const data = {};
     new FormData(form).forEach((val, key) => {
+      const safe = escapeHtml(val);
       if (data[key] !== undefined){
-        data[key] = Array.isArray(data[key]) ? [...data[key], val] : [data[key], val];
+        data[key] = Array.isArray(data[key]) ? [...data[key], safe] : [data[key], safe];
       } else {
-        data[key] = val;
+        data[key] = safe;
       }
     });
     data.submittedAt = new Date().toISOString();
